@@ -55,7 +55,7 @@ async def health():
 @app.post("/api/explain", response_model=ExplainResponse)
 async def explain(
     request: ExplainRequest,
-    user: CurrentUser,
+    # user: CurrentUser,
 ) -> ExplainResponse:
     """
     Explain a math concept using multi-agent pipeline.
@@ -74,7 +74,7 @@ async def explain(
     """
     # Execute the multi-agent pipeline
     result = await orchestrator.explain(
-        query=request.query, locale=request.locale or "en"
+        query=request.query, locale=request.locale or "en", model=request.model
     )
 
     # Handle result

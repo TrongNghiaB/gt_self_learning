@@ -26,7 +26,7 @@ class MathSolverAgent:
     Can use SymPy for verification when needed.
     """
 
-    async def solve(self, topic: str, query: str) -> Result[MathSolution, MathSolvingError]:
+    async def solve(self, topic: str, query: str, model: Optional[str] = None) -> Result[MathSolution, MathSolvingError]:
         """
         Generate math explanation using LLM.
 

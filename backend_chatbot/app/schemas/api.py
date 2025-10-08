@@ -9,6 +9,7 @@ class ExplainRequest(BaseModel):
 
     query: str = Field(..., min_length=1, description="Math question or topic to explain")
     locale: Optional[str] = Field(default="en", description="Language locale for the explanation")
+    model: Optional[str] = Field(default=None, description="LLM model to use: 'openai', 'gemini', or 'both'")
 
 
 class ExplainResponse(BaseModel):

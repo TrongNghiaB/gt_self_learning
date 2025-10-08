@@ -1,7 +1,7 @@
 """Orchestrator - coordinates all agents in the pipeline."""
 import asyncio
 from concurrent.futures import ProcessPoolExecutor
-from typing import Any
+from typing import Any, Optional
 from app.core.result import Result, Ok, Err
 from app.core.errors import DomainError, InvariantError
 from app.core.concurrency import create_process_pool
@@ -41,7 +41,7 @@ class Orchestrator:
         return self.process_pool
 
     async def explain(
-        self, query: str, locale: str = "en"
+        self, query: str, locale: str = "en", model: Optional[str] = None
     ) -> Result[tuple[str, list[Element]], DomainError]:
         """
         Execute the full pipeline to generate explanation elements.
@@ -54,14 +54,14 @@ class Orchestrator:
             Result containing (topic, elements) or DomainError
         """
         # Step 1: Planning (LLM-based, async)
-        plan_result = await self.planner.plan(query, locale)
+        plan_result = await self.planner.plan(query, locale, model)
         if plan_result.is_err():
             return plan_result  # type: ignore
 
         plan: Plan = plan_result.unwrap()
 
         # Step 2: Math solving (LLM-based, async)
-        math_solution_result = await self.math_solver.solve(plan.topic, query)
+        math_solution_result = await self.math_solver.solve(plan.topic, query, model)
         if math_solution_result.is_err():
             return math_solution_result  # type: ignore
 

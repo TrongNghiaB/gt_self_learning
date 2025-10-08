@@ -1,6 +1,7 @@
 """Planner Agent - decides topic and which sections/visuals to include."""
 import json
 from dataclasses import dataclass
+from typing import Optional
 from app.core.result import Result, Ok, Err
 from app.core.errors import PlanningError
 from app.core.llm_clients import get_openai_client, get_gemini_client
@@ -23,7 +24,7 @@ class PlannerAgent:
     Analyzes the query using LLM and decides what content to include.
     """
 
-    async def plan(self, query: str, locale: str) -> Result[Plan, PlanningError]:
+    async def plan(self, query: str, locale: str, model: Optional[str] = None) -> Result[Plan, PlanningError]:
         """
         Create a plan for explaining the given query using LLM.
 
