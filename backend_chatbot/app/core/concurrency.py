@@ -28,10 +28,8 @@ def choose_executor(task_kind: TaskKind) -> ExecutorStrategy:
     """
     if task_kind == "io":
         return ExecutorStrategy(strategy="thread")
-    elif task_kind == "cpu":
+    else:  # task_kind == "cpu"
         return ExecutorStrategy(strategy="process")
-    else:
-        raise ValueError(f"Unknown task kind: {task_kind}")
 
 
 def create_thread_pool() -> ThreadPoolExecutor:
