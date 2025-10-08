@@ -1,22 +1,18 @@
-"""Math Solver Agent - uses LLM for math explanations and SymPy for verification."""
+"""Math Solver Agent - uses LLM for math explanations."""
 import json
-from dataclasses import dataclass
 from typing import Optional
-import sympy as sp
-from sympy.parsing.sympy_parser import parse_expr, standard_transformations
+from pydantic import BaseModel
 from app.core.result import Result, Ok, Err
 from app.core.errors import MathSolvingError
 from app.core.llm_clients import get_openai_client, get_gemini_client
-from app.config import settings
 
 
-@dataclass(frozen=True)
-class MathSolution:
+class MathSolution(BaseModel):
     """Solution from the math solver."""
 
     explanation: str
-    formula_latex: Optional[str]
-    formula_text: Optional[str]
+    formula_latex: Optional[str] = None
+    formula_text: Optional[str] = None
     example_steps: list[str]
 
 
@@ -26,7 +22,7 @@ class MathSolverAgent:
     Can use SymPy for verification when needed.
     """
 
-    async def solve(self, topic: str, query: str, model: Optional[str] = None) -> Result[MathSolution, MathSolvingError]:
+    async def solve(self, topic: str, query: str, model:str) -> Result[MathSolution, MathSolvingError]:
         """
         Generate math explanation using LLM.
 
@@ -40,34 +36,40 @@ class MathSolverAgent:
         try:
             prompt = self._create_math_prompt(topic, query)
             
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are an expert mathematics teacher. Explain concepts clearly with formulas and examples."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+            
             # Try primary model first
-            if settings.primary_model in ["openai", "both"]:
+            if model == "openai":
                 client = get_openai_client()
-                result = await client.chat_completion(
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are an expert mathematics teacher. Explain concepts clearly with formulas and examples."
-                        },
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ],
-                    temperature=0.7,
-                    response_format={"type": "json_object"}
+                result = await client.chat_completion_structured(
+                    messages=messages,
+                    response_model=MathSolution,
+                    temperature=0.7
                 )
                 
                 if result.is_ok():
-                    return self._parse_llm_response(result.unwrap())
+                    return Ok(result.unwrap())
             
             # Fallback to Gemini
-            if settings.primary_model in ["gemini", "both"]:
+            if model == "gemini":
                 client = get_gemini_client()
-                result = await client.generate_content(prompt, temperature=0.7)
+                result = await client.chat_structured(
+                    messages=messages,
+                    response_model=MathSolution,
+                    temperature=0.7
+                )
                 
                 if result.is_ok():
-                    return self._parse_llm_response(result.unwrap())
+                    return Ok(result.unwrap())
             
             return Err(
                 MathSolvingError(
@@ -110,33 +112,3 @@ Guidelines:
 - Use proper mathematical notation
 - If no formula/example is needed, use null or empty array"""
 
-    def _parse_llm_response(self, response: str) -> Result[MathSolution, MathSolvingError]:
-        """Parse LLM JSON response into MathSolution."""
-        try:
-            # Extract JSON from response (handle markdown code blocks)
-            response = response.strip()
-            if response.startswith("```json"):
-                response = response[7:]
-            if response.startswith("```"):
-                response = response[3:]
-            if response.endswith("```"):
-                response = response[:-3]
-            response = response.strip()
-
-            data = json.loads(response)
-            
-            return Ok(
-                MathSolution(
-                    explanation=data.get("explanation", ""),
-                    formula_latex=data.get("formula_latex"),
-                    formula_text=data.get("formula_text"),
-                    example_steps=data.get("example_steps", []),
-                )
-            )
-        except (json.JSONDecodeError, KeyError, TypeError) as e:
-            return Err(
-                MathSolvingError(
-                    message=f"Failed to parse LLM response: {str(e)}",
-                    details={"response": response[:200]},
-                )
-            )

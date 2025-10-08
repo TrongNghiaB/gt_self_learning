@@ -1,15 +1,14 @@
 """Planner Agent - decides topic and which sections/visuals to include."""
 import json
-from dataclasses import dataclass
 from typing import Optional
+from pydantic import BaseModel
 from app.core.result import Result, Ok, Err
 from app.core.errors import PlanningError
 from app.core.llm_clients import get_openai_client, get_gemini_client
-from app.config import settings
+# from app.config import settings
 
 
-@dataclass(frozen=True)
-class Plan:
+class Plan(BaseModel):
     """Plan for explaining a math topic."""
 
     topic: str
@@ -24,7 +23,7 @@ class PlannerAgent:
     Analyzes the query using LLM and decides what content to include.
     """
 
-    async def plan(self, query: str, locale: str, model: Optional[str] = None) -> Result[Plan, PlanningError]:
+    async def plan(self, query: str, locale: str, model: str) -> Result[Plan, PlanningError]:
         """
         Create a plan for explaining the given query using LLM.
 
@@ -41,34 +40,40 @@ class PlannerAgent:
         # Use LLM to create intelligent plan
         prompt = self._create_planning_prompt(query, locale)
         
+        messages = [
+            {
+                "role": "system",
+                "content": "You are a math education expert. Analyze queries and create structured learning plans."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+
         # Try primary model first
-        if settings.primary_model in ["openai", "both"]:
+        if model == "openai":
             client = get_openai_client()
-            result = await client.chat_completion(
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a math education expert. Analyze queries and create structured learning plans."
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ],
-                temperature=0.3,
-                response_format={"type": "json_object"}
+            result = await client.chat_completion_structured(
+                messages=messages,
+                response_model=Plan,
+                temperature=0.3
             )
             
             if result.is_ok():
-                return self._parse_llm_response(result.unwrap())
+                return Ok(result.unwrap())
         
         # Fallback to Gemini if OpenAI fails or if Gemini is primary
-        if settings.primary_model in ["gemini", "both"]:
+        if model == "gemini":
             client = get_gemini_client()
-            result = await client.generate_content(prompt, temperature=0.3)
+            result = await client.chat_structured(
+                messages=messages,
+                response_model=Plan,
+                temperature=0.3
+            )
             
             if result.is_ok():
-                return self._parse_llm_response(result.unwrap())
+                return Ok(result.unwrap())
         
         # If both fail, return error
         return Err(PlanningError(message="Failed to create plan with LLM"))
@@ -101,35 +106,4 @@ Return a JSON object with this structure:
 
 Choose visuals that will genuinely help explain this specific concept. Be selective - only include visuals that add value."""
 
-    def _parse_llm_response(self, response: str) -> Result[Plan, PlanningError]:
-        """Parse LLM JSON response into Plan."""
-        try:
-            # Extract JSON from response (handle markdown code blocks)
-            response = response.strip()
-            if response.startswith("```json"):
-                response = response[7:]
-            if response.startswith("```"):
-                response = response[3:]
-            if response.endswith("```"):
-                response = response[:-3]
-            response = response.strip()
-
-            data = json.loads(response)
-            
-            return Ok(
-                Plan(
-                    topic=data.get("topic", "Mathematics"),
-                    needs_intro=data.get("needs_intro", True),
-                    needs_formula=data.get("needs_formula", False),
-                    needs_example=data.get("needs_example", False),
-                    visual_types=data.get("visual_types", []),
-                )
-            )
-        except (json.JSONDecodeError, KeyError, TypeError) as e:
-            return Err(
-                PlanningError(
-                    message=f"Failed to parse LLM response: {str(e)}",
-                    details={"response": response[:200]},
-                )
-            )
 

@@ -41,7 +41,7 @@ class Orchestrator:
         return self.process_pool
 
     async def explain(
-        self, query: str, locale: str = "en", model: Optional[str] = None
+        self, query: str, locale: str = "en", model: str = "openai"
     ) -> Result[tuple[str, list[Element]], DomainError]:
         """
         Execute the full pipeline to generate explanation elements.

@@ -1,7 +1,7 @@
 """LLM client wrappers for OpenAI and Gemini."""
 import json
 from typing import Any, Optional
-from openai import AsyncOpenAI
+from openai import AsyncOpenAI, OpenAI
 import google.generativeai as genai
 
 from app.config import settings
@@ -17,50 +17,52 @@ class LLMError(DomainError):
 class OpenAIClient:
     """Wrapper for OpenAI API."""
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self):
         """Initialize OpenAI client."""
-        self.api_key = api_key or settings.openai_api_key
-        self.client = AsyncOpenAI(api_key=self.api_key) if self.api_key else None
+        self.api_key = settings.openai_api_key
+        self.async_client = AsyncOpenAI(api_key=self.api_key) if self.api_key else None
+        self.sync_client = OpenAI(api_key=self.api_key) if self.api_key else None
 
-    async def chat_completion(
+    async def chat_completion_structured(
         self,
         messages: list[dict[str, str]],
-        model: str = "gpt-4-turbo-preview",
+        response_model: type,
+        model: str = "gpt-4o-mini",
         temperature: float = 0.7,
-        response_format: Optional[dict[str, str]] = None,
-    ) -> Result[str, LLMError]:
+    ) -> Result[any, LLMError]:
         """
-        Call OpenAI chat completion.
+        Call OpenAI chat completion with structured output using Pydantic model.
 
         Args:
             messages: List of message dicts with 'role' and 'content'
-            model: Model name (default: gpt-4-turbo-preview)
+            response_model: Pydantic model class for structured output
+            model: Model name (default: gpt-4o-mini)
             temperature: Sampling temperature (0-2)
-            response_format: Optional response format (e.g., {"type": "json_object"})
 
         Returns:
-            Result containing response text or LLMError
+            Result containing parsed Pydantic model or LLMError
         """
-        if not self.client:
+        if not self.async_client:
             return Err(LLMError(message="OpenAI API key not configured"))
 
         try:
-            kwargs: dict[str, Any] = {
-                "model": model,
-                "messages": messages,
-                "temperature": temperature,
-            }
-            
-            if response_format:
-                kwargs["response_format"] = response_format
-
-            response = await self.client.chat.completions.create(**kwargs)
+            # Use traditional chat completion with JSON mode
+            response = await self.async_client.chat.completions.create(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                response_format={"type": "json_object"}
+            )
             
             content = response.choices[0].message.content
             if not content:
                 return Err(LLMError(message="Empty response from OpenAI"))
 
-            return Ok(content)
+            # Parse JSON and create Pydantic model
+            import json
+            data = json.loads(content)
+            parsed_model = response_model(**data)
+            return Ok(parsed_model)
 
         except Exception as e:
             return Err(
@@ -79,24 +81,26 @@ class GeminiClient:
         self.api_key = api_key or settings.gemini_api_key
         if self.api_key:
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-pro')
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
         else:
             self.model = None
 
-    async def generate_content(
+    async def generate_content_structured(
         self,
         prompt: str,
+        response_model: type,
         temperature: float = 0.7,
-    ) -> Result[str, LLMError]:
+    ) -> Result[any, LLMError]:
         """
-        Generate content using Gemini.
+        Generate structured content using Gemini with Pydantic model.
 
         Args:
             prompt: Text prompt
+            response_model: Pydantic model class for structured output
             temperature: Sampling temperature (0-1)
 
         Returns:
-            Result containing response text or LLMError
+            Result containing parsed Pydantic model or LLMError
         """
         if not self.model:
             return Err(LLMError(message="Gemini API key not configured"))
@@ -104,9 +108,8 @@ class GeminiClient:
         try:
             generation_config = {
                 "temperature": temperature,
-                "top_p": 0.95,
-                "top_k": 40,
-                "max_output_tokens": 8192,
+                "response_mime_type": "application/json",
+                "response_schema": response_model,
             }
 
             response = await self.model.generate_content_async(
@@ -117,30 +120,36 @@ class GeminiClient:
             if not response.text:
                 return Err(LLMError(message="Empty response from Gemini"))
 
-            return Ok(response.text)
+            # Parse JSON response into Pydantic model
+            import json
+            data = json.loads(response.text)
+            parsed_model = response_model(**data)
+            return Ok(parsed_model)
 
         except Exception as e:
             return Err(
                 LLMError(
                     message=f"Gemini API error: {str(e)}",
-                    details={"model": "gemini-pro"},
+                    details={"model": "gemini-2.5-flash"},
                 )
             )
 
-    async def chat(
+    async def chat_structured(
         self,
         messages: list[dict[str, str]],
+        response_model: type,
         temperature: float = 0.7,
-    ) -> Result[str, LLMError]:
+    ) -> Result[any, LLMError]:
         """
-        Chat completion using Gemini (converts messages to prompt).
+        Chat completion using Gemini with structured output.
 
         Args:
             messages: List of message dicts with 'role' and 'content'
+            response_model: Pydantic model class for structured output
             temperature: Sampling temperature (0-1)
 
         Returns:
-            Result containing response text or LLMError
+            Result containing parsed Pydantic model or LLMError
         """
         # Convert OpenAI-style messages to Gemini prompt
         prompt_parts = []
@@ -156,7 +165,7 @@ class GeminiClient:
                 prompt_parts.append(f"Assistant: {content}")
 
         prompt = "\n\n".join(prompt_parts)
-        return await self.generate_content(prompt, temperature)
+        return await self.generate_content_structured(prompt, response_model, temperature)
 
 
 # Global instances (lazy initialized)

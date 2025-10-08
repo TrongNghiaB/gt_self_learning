@@ -23,13 +23,13 @@ class Ok(Generic[T]):
     def unwrap(self) -> T:
         return self.value
 
-    def unwrap_or(self, default: T) -> T:
+    def unwrap_or(self) -> T:
         return self.value
 
     def map(self, func: Callable[[T], U]) -> "Result[U, E]":
         return Ok(func(self.value))
 
-    def map_err(self, func: Callable[[E], U]) -> "Result[T, U]":
+    def map_err(self) -> "Result[T, U]":
         return self  # type: ignore
 
 
@@ -51,7 +51,7 @@ class Err(Generic[E]):
     def unwrap_or(self, default: T) -> T:
         return default
 
-    def map(self, func: Callable[[T], U]) -> "Result[U, E]":
+    def map(self) -> "Result[U, E]":
         return self  # type: ignore
 
     def map_err(self, func: Callable[[E], U]) -> "Result[T, U]":
