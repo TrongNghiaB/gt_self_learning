@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend_chatbot/core/constants/constants.dart';
@@ -54,29 +55,73 @@ class ApiService {
 
   /// Explain math concept
   Future<Map<String, dynamic>> explainMath({
-    required String query,
+    required String prompt,
     String locale = 'en',
     String? model,
+    List<File> imageFiles = const [],
   }) async {
     try {
+      if (prompt.trim().isEmpty) {
+        throw Exception('Prompt cannot be empty');
+      }
+
+      final validModels = ['openai', 'gemini'];
+      final selectedModel = model ?? 'openai';
+      if (!validModels.contains(selectedModel)) {
+        throw Exception(
+          'Invalid model: $selectedModel. Must be one of: ${validModels.join(', ')}',
+        );
+      }
+
       final token = await _getFirebaseToken();
       if (token == null) {
         throw Exception('User not authenticated');
       }
 
+      // Chuẩn hóa list ảnh
+      List<MultipartFile> filesList = [];
+      if (imageFiles.isNotEmpty) {
+        filesList = [
+          for (final f in imageFiles)
+            MultipartFile.fromFileSync(
+              f.path,
+              filename: f.path.split('/').last,
+            ),
+        ];
+      }
+
+      // FormData: chỉ include 'images' khi có ảnh
+      final formData = FormData.fromMap({
+        'prompt': prompt,
+        'locale': locale,
+        'model': selectedModel,
+        if (filesList.isNotEmpty) 'images': filesList,
+      });
+
+      // Debug
+      _logger.d('Sending request to /api/explain');
+      _logger.d('Prompt: $prompt');
+      _logger.d('Locale: $locale');
+      _logger.d('Model: $selectedModel');
+      _logger.d('Image files count: ${imageFiles.length}');
+
       final response = await _dio.post(
         '/api/explain',
-        data: {
-          'query': query,
-          'locale': locale,
-          if (model != null) 'model': model,
-        },
+        data: formData,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
+      _logger.d('Response received successfully');
       return response.data;
     } catch (e) {
       _logger.e('Explain math failed: $e');
+      if (e is DioException) {
+        _logger.e('DioException details:');
+        _logger.e('  Status code: ${e.response?.statusCode}');
+        _logger.e('  Response data: ${e.response?.data}');
+        _logger.e('  Request data: ${e.requestOptions.data}');
+        _logger.e('  Request headers: ${e.requestOptions.headers}');
+      }
       rethrow;
     }
   }

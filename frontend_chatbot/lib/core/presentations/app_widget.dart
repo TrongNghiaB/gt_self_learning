@@ -2,63 +2,98 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend_chatbot/firebase_options.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../router/app_router.dart';
+import '../bloc/app/app_bloc.dart';
+import '../bloc/auth/auth_bloc.dart';
 
-class AppWidget extends HookConsumerWidget {
+class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isInitialized = useState(false);
-    final user = useState<User?>(null);
+  State<AppWidget> createState() => _AppWidgetState();
+}
 
-    useEffect(() {
-      _initializeApp(isInitialized);
-      return null;
-    }, []);
-
-    useEffect(() {
-      if (isInitialized.value) {
-        _listenToAuthChanges(user);
-      }
-      return null;
-    }, [isInitialized.value]);
-
-    if (!isInitialized.value) {
-      return const MaterialApp(
-        home: Scaffold(body: Center(child: CircularProgressIndicator())),
-      );
-    }
-
-    return MaterialApp.router(
-      title: 'Math Explainer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
-      ),
-      routerConfig: appRouter.config(),
-    );
+class _AppWidgetState extends State<AppWidget> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
   }
 
-  Future<void> _initializeApp(ValueNotifier<bool> isInitialized) async {
+  Future<void> _initializeApp() async {
     try {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      isInitialized.value = true;
+      if (mounted) {
+        context.read<AppBloc>().add(const AppInitialized());
+        _listenToAuthChanges();
+      }
     } catch (e) {
       debugPrint('Firebase initialization error: $e');
-      isInitialized.value = true; // Continue anyway for development
+      if (mounted) {
+        context.read<AppBloc>().add(const AppInitialized());
+        _listenToAuthChanges();
+      }
     }
   }
 
-  void _listenToAuthChanges(ValueNotifier<User?> user) {
+  void _listenToAuthChanges() {
     FirebaseAuth.instance.authStateChanges().listen((User? authUser) {
-      user.value = authUser;
+      if (mounted) {
+        context.read<AppBloc>().add(AuthStateChanged(authUser));
+        // Only check auth status if user is authenticated and not null
+        // This prevents checking auth status during sign out process
+        if (authUser != null && authUser.uid.isNotEmpty) {
+          context.read<AuthBloc>().add(const CheckAuthStatus());
+        }
+      }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<AppBloc, AppState>(
+      listener: (context, state) {
+        // Navigate when authentication state changes
+        if (state.isInitialized) {
+          final router = appRouter;
+          if (state.isAuthenticated &&
+              router.current.name != MathExplanationRoute.name) {
+            router.pushAndPopUntil(
+              const MathExplanationRoute(),
+              predicate: (route) => false,
+            );
+          } else if (!state.isAuthenticated &&
+              router.current.name != AuthRoute.name) {
+            router.pushAndPopUntil(
+              const AuthRoute(),
+              predicate: (route) => false,
+            );
+          }
+        }
+      },
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (context, state) {
+          if (!state.isInitialized) {
+            return const MaterialApp(
+              home: Scaffold(body: Center(child: CircularProgressIndicator())),
+            );
+          }
+
+          return MaterialApp.router(
+            title: 'Math Explainer',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              useMaterial3: true,
+              appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
+            ),
+            routerConfig: appRouter.config(),
+          );
+        },
+      ),
+    );
   }
 }
