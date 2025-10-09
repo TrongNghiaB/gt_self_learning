@@ -114,6 +114,92 @@ class FirestoreService:
         
         return conversations
     
+    async def get_conversations_paginated(
+        self, 
+        user_id: str, 
+        limit: int = 10, 
+        cursor: Optional[str] = None
+    ) -> tuple[List[ConversationSummary], Optional[str]]:
+        """
+        Get paginated list of conversations for a user.
+        
+        Args:
+            user_id: Firebase user ID
+            limit: Number of conversations to return per page
+            cursor: Last conversation ID for pagination
+            
+        Returns:
+            Tuple of (conversations, next_cursor)
+        """
+        db = self._get_db()
+        if db is None:
+            print("Warning: Firestore not available, returning mock data")
+            # Return mock data for development
+            from datetime import datetime, timedelta
+            mock_conversations = [
+                ConversationSummary(
+                    id="mock-1",
+                    topic="Sample Math Problem",
+                    created_at=datetime.now() - timedelta(hours=1),
+                    updated_at=datetime.now() - timedelta(hours=1),
+                    image_count=0
+                ),
+                ConversationSummary(
+                    id="mock-2", 
+                    topic="Quadratic Equation",
+                    created_at=datetime.now() - timedelta(hours=2),
+                    updated_at=datetime.now() - timedelta(hours=2),
+                    image_count=1
+                ),
+                ConversationSummary(
+                    id="mock-3",
+                    topic="Arithmetic Calculation", 
+                    created_at=datetime.now() - timedelta(days=1),
+                    updated_at=datetime.now() - timedelta(days=1),
+                    image_count=0
+                )
+            ]
+            return mock_conversations[:limit], None
+            
+        # Build query
+        query = (
+            db.collection(self.conversations_collection)
+            .where(filter=FieldFilter("user_id", "==", user_id))
+            .order_by("updated_at", direction=firestore.Query.DESCENDING)
+        )
+        
+        # Add cursor for pagination
+        if cursor:
+            # Get the cursor document to start from
+            cursor_doc = db.collection(self.conversations_collection).document(cursor).get()
+            if cursor_doc.exists:
+                cursor_data = cursor_doc.to_dict()
+                query = query.start_after(cursor_data)
+        
+        # Add limit (request one extra to check if there are more)
+        query = query.limit(limit + 1)
+        
+        docs = list(query.stream())
+        conversations = []
+        next_cursor = None
+        
+        # Process results
+        for i, doc in enumerate(docs):
+            if i < limit:  # Only include up to limit
+                data = doc.to_dict()
+                conversations.append(ConversationSummary(
+                    id=data["id"],
+                    topic=data["topic"],
+                    created_at=data["created_at"],
+                    updated_at=data["updated_at"],
+                    image_count=data["image_count"]
+                ))
+            else:  # If we have more than limit, set next cursor
+                next_cursor = conversations[-1].id if conversations else None
+                break
+        
+        return conversations, next_cursor
+    
     async def get_conversation(self, conversation_id: str, user_id: str) -> Optional[ConversationDetail]:
         """
         Get detailed conversation information.
@@ -127,8 +213,42 @@ class FirestoreService:
         """
         db = self._get_db()
         if db is None:
-            print("Warning: Firestore not available, returning None")
-            return None
+            print("Warning: Firestore not available, returning mock data")
+            # Return mock data for development
+            from datetime import datetime, timedelta
+            from app.schemas.elements import TextBlock, AnswerBlock, ExampleSteps, StepDetail
+            
+            mock_elements = [
+                AnswerBlock(
+                    id="elem_0",
+                    type="answer_block",
+                    order=0,
+                    title="Final Answer",
+                    answer="25",
+                    explanation="The result of (2+3)^2 is 25"
+                ),
+                ExampleSteps(
+                    id="elem_1",
+                    type="example_steps", 
+                    order=1,
+                    title="Solution Steps",
+                    steps=[
+                        StepDetail(step_num=1, step_text="Calculate 2+3=5"),
+                        StepDetail(step_num=2, step_text="Square the result: 5^2=25"),
+                        StepDetail(step_num=3, step_text="Final answer is 25")
+                    ]
+                )
+            ]
+            
+            return ConversationDetail(
+                id=conversation_id,
+                topic="Sample Math Problem",
+                query="What is (2+3)^2?",
+                elements=mock_elements,
+                image_paths=[],
+                created_at=datetime.now() - timedelta(hours=1),
+                updated_at=datetime.now() - timedelta(hours=1)
+            )
             
         doc_ref = db.collection(self.conversations_collection).document(conversation_id)
         doc = doc_ref.get()
@@ -221,8 +341,8 @@ class FirestoreService:
         """
         db = self._get_db()
         if db is None:
-            print("Warning: Firestore not available, returning False")
-            return False
+            print("Warning: Firestore not available, returning True (mock delete)")
+            return True
             
         doc_ref = db.collection(self.conversations_collection).document(conversation_id)
         doc = doc_ref.get()

@@ -41,3 +41,12 @@ class ConversationDetail(BaseModel):
     created_at: datetime = Field(..., description="When the conversation was created")
     updated_at: datetime = Field(..., description="When the conversation was last updated")
 
+
+class ConversationListResponse(BaseModel):
+    """Paginated conversation list response."""
+
+    conversations: List[ConversationSummary] = Field(..., description="List of conversations")
+    next_cursor: Optional[str] = Field(None, description="Cursor for next page")
+    has_more: bool = Field(..., description="Whether there are more conversations")
+    count: int = Field(..., description="Number of conversations in current page")
+

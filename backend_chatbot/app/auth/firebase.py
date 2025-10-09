@@ -35,9 +35,7 @@ def initialize_firebase() -> None:
 
         if cred_path and os.path.exists(cred_path):
             cred = credentials.Certificate(cred_path)
-            firebase_admin.initialize_app(cred,{
-        "projectId": settings.firebase_project_id,
-    })
+            firebase_admin.initialize_app(cred)
         else:
             # Try default credentials (e.g., from GCP environment)
             firebase_admin.initialize_app()
