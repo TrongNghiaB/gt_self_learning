@@ -38,11 +38,11 @@ class MathExplanationBloc
         imageFiles: state.selectedImages,
       );
 
-      final explanation = MathExplanation.fromJson(response);
+      final explainResponse = ExplainResponse.fromJson(response);
       emit(
         state.copyWith(
           status: MathExplanationStatus.success,
-          explanation: explanation,
+          explainResponse: explainResponse,
         ),
       );
     } catch (e) {

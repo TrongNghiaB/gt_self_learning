@@ -24,6 +24,8 @@ class MathElementWidget extends StatelessWidget {
           _buildFormula(title, caption, latex, text),
       example_steps: (id, order, title, caption, steps) =>
           _buildExampleSteps(title, caption, steps),
+      answer_block: (id, order, title, caption, answer, explanation) =>
+          _buildAnswerBlock(title, caption, answer, explanation),
       bar_chart: (id, order, title, caption, data, labels, imageBase64) =>
           _buildBarChart(title, caption, imageBase64),
       line_chart: (id, order, title, caption, x, y, imageBase64) =>
@@ -134,7 +136,7 @@ class MathElementWidget extends StatelessWidget {
   Widget _buildExampleSteps(
     String? title,
     String? caption,
-    List<String> steps,
+    List<model.StepDetail> steps,
   ) {
     return Card(
       child: Padding(
@@ -152,9 +154,7 @@ class MathElementWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8),
             ],
-            ...steps.asMap().entries.map((entry) {
-              final index = entry.key;
-              final step = entry.value;
+            ...steps.map((step) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
@@ -169,7 +169,7 @@ class MathElementWidget extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          '${index + 1}',
+                          '${step.stepNum}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -180,12 +180,91 @@ class MathElementWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(step, style: const TextStyle(fontSize: 16)),
+                      child: Text(
+                        step.stepText,
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
               );
             }).toList(),
+            if (caption != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                caption,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnswerBlock(
+    String? title,
+    String? caption,
+    String answer,
+    String? explanation,
+  ) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (title != null) ...[
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.green.shade50,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.green.shade300),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Answer:',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(answer, style: const TextStyle(fontSize: 16)),
+                  if (explanation != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'Explanation:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green.shade700,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(explanation, style: const TextStyle(fontSize: 14)),
+                  ],
+                ],
+              ),
+            ),
             if (caption != null) ...[
               const SizedBox(height: 8),
               Text(

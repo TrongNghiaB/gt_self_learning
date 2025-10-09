@@ -13,291 +13,22 @@ part of 'math_explanation.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$ExplainRequest {
-
- String get query; String get locale; String? get model;
-/// Create a copy of ExplainRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ExplainRequestCopyWith<ExplainRequest> get copyWith => _$ExplainRequestCopyWithImpl<ExplainRequest>(this as ExplainRequest, _$identity);
-
-  /// Serializes this ExplainRequest to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExplainRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.model, model) || other.model == model));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,query,locale,model);
-
-@override
-String toString() {
-  return 'ExplainRequest(query: $query, locale: $locale, model: $model)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ExplainRequestCopyWith<$Res>  {
-  factory $ExplainRequestCopyWith(ExplainRequest value, $Res Function(ExplainRequest) _then) = _$ExplainRequestCopyWithImpl;
-@useResult
-$Res call({
- String query, String locale, String? model
-});
-
-
-
-
-}
-/// @nodoc
-class _$ExplainRequestCopyWithImpl<$Res>
-    implements $ExplainRequestCopyWith<$Res> {
-  _$ExplainRequestCopyWithImpl(this._self, this._then);
-
-  final ExplainRequest _self;
-  final $Res Function(ExplainRequest) _then;
-
-/// Create a copy of ExplainRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? locale = null,Object? model = freezed,}) {
-  return _then(_self.copyWith(
-query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
-as String,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
-as String,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [ExplainRequest].
-extension ExplainRequestPatterns on ExplainRequest {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ExplainRequest value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _ExplainRequest() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ExplainRequest value)  $default,){
-final _that = this;
-switch (_that) {
-case _ExplainRequest():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ExplainRequest value)?  $default,){
-final _that = this;
-switch (_that) {
-case _ExplainRequest() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String query,  String locale,  String? model)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _ExplainRequest() when $default != null:
-return $default(_that.query,_that.locale,_that.model);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String query,  String locale,  String? model)  $default,) {final _that = this;
-switch (_that) {
-case _ExplainRequest():
-return $default(_that.query,_that.locale,_that.model);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String query,  String locale,  String? model)?  $default,) {final _that = this;
-switch (_that) {
-case _ExplainRequest() when $default != null:
-return $default(_that.query,_that.locale,_that.model);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _ExplainRequest implements ExplainRequest {
-  const _ExplainRequest({required this.query, this.locale = 'en', this.model});
-  factory _ExplainRequest.fromJson(Map<String, dynamic> json) => _$ExplainRequestFromJson(json);
-
-@override final  String query;
-@override@JsonKey() final  String locale;
-@override final  String? model;
-
-/// Create a copy of ExplainRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$ExplainRequestCopyWith<_ExplainRequest> get copyWith => __$ExplainRequestCopyWithImpl<_ExplainRequest>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$ExplainRequestToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExplainRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.model, model) || other.model == model));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,query,locale,model);
-
-@override
-String toString() {
-  return 'ExplainRequest(query: $query, locale: $locale, model: $model)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$ExplainRequestCopyWith<$Res> implements $ExplainRequestCopyWith<$Res> {
-  factory _$ExplainRequestCopyWith(_ExplainRequest value, $Res Function(_ExplainRequest) _then) = __$ExplainRequestCopyWithImpl;
-@override @useResult
-$Res call({
- String query, String locale, String? model
-});
-
-
-
-
-}
-/// @nodoc
-class __$ExplainRequestCopyWithImpl<$Res>
-    implements _$ExplainRequestCopyWith<$Res> {
-  __$ExplainRequestCopyWithImpl(this._self, this._then);
-
-  final _ExplainRequest _self;
-  final $Res Function(_ExplainRequest) _then;
-
-/// Create a copy of ExplainRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? query = null,Object? locale = null,Object? model = freezed,}) {
-  return _then(_ExplainRequest(
-query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
-as String,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
-as String,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$MathExplanation {
+mixin _$ExplainResponse {
 
  String get topic; List<MathElement> get elements;
-/// Create a copy of MathExplanation
+/// Create a copy of ExplainResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$MathExplanationCopyWith<MathExplanation> get copyWith => _$MathExplanationCopyWithImpl<MathExplanation>(this as MathExplanation, _$identity);
+$ExplainResponseCopyWith<ExplainResponse> get copyWith => _$ExplainResponseCopyWithImpl<ExplainResponse>(this as ExplainResponse, _$identity);
 
-  /// Serializes this MathExplanation to a JSON map.
+  /// Serializes this ExplainResponse to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MathExplanation&&(identical(other.topic, topic) || other.topic == topic)&&const DeepCollectionEquality().equals(other.elements, elements));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExplainResponse&&(identical(other.topic, topic) || other.topic == topic)&&const DeepCollectionEquality().equals(other.elements, elements));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -306,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,topic,const DeepCollectionEquality()
 
 @override
 String toString() {
-  return 'MathExplanation(topic: $topic, elements: $elements)';
+  return 'ExplainResponse(topic: $topic, elements: $elements)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $MathExplanationCopyWith<$Res>  {
-  factory $MathExplanationCopyWith(MathExplanation value, $Res Function(MathExplanation) _then) = _$MathExplanationCopyWithImpl;
+abstract mixin class $ExplainResponseCopyWith<$Res>  {
+  factory $ExplainResponseCopyWith(ExplainResponse value, $Res Function(ExplainResponse) _then) = _$ExplainResponseCopyWithImpl;
 @useResult
 $Res call({
  String topic, List<MathElement> elements
@@ -325,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$MathExplanationCopyWithImpl<$Res>
-    implements $MathExplanationCopyWith<$Res> {
-  _$MathExplanationCopyWithImpl(this._self, this._then);
+class _$ExplainResponseCopyWithImpl<$Res>
+    implements $ExplainResponseCopyWith<$Res> {
+  _$ExplainResponseCopyWithImpl(this._self, this._then);
 
-  final MathExplanation _self;
-  final $Res Function(MathExplanation) _then;
+  final ExplainResponse _self;
+  final $Res Function(ExplainResponse) _then;
 
-/// Create a copy of MathExplanation
+/// Create a copy of ExplainResponse
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? topic = null,Object? elements = null,}) {
   return _then(_self.copyWith(
@@ -345,8 +76,8 @@ as List<MathElement>,
 }
 
 
-/// Adds pattern-matching-related methods to [MathExplanation].
-extension MathExplanationPatterns on MathExplanation {
+/// Adds pattern-matching-related methods to [ExplainResponse].
+extension ExplainResponsePatterns on ExplainResponse {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -359,10 +90,10 @@ extension MathExplanationPatterns on MathExplanation {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MathExplanation value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ExplainResponse value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _MathExplanation() when $default != null:
+case _ExplainResponse() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -381,10 +112,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MathExplanation value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ExplainResponse value)  $default,){
 final _that = this;
 switch (_that) {
-case _MathExplanation():
+case _ExplainResponse():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -402,10 +133,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MathExplanation value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ExplainResponse value)?  $default,){
 final _that = this;
 switch (_that) {
-case _MathExplanation() when $default != null:
+case _ExplainResponse() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -425,7 +156,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String topic,  List<MathElement> elements)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _MathExplanation() when $default != null:
+case _ExplainResponse() when $default != null:
 return $default(_that.topic,_that.elements);case _:
   return orElse();
 
@@ -446,7 +177,7 @@ return $default(_that.topic,_that.elements);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String topic,  List<MathElement> elements)  $default,) {final _that = this;
 switch (_that) {
-case _MathExplanation():
+case _ExplainResponse():
 return $default(_that.topic,_that.elements);case _:
   throw StateError('Unexpected subclass');
 
@@ -466,7 +197,7 @@ return $default(_that.topic,_that.elements);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String topic,  List<MathElement> elements)?  $default,) {final _that = this;
 switch (_that) {
-case _MathExplanation() when $default != null:
+case _ExplainResponse() when $default != null:
 return $default(_that.topic,_that.elements);case _:
   return null;
 
@@ -478,9 +209,9 @@ return $default(_that.topic,_that.elements);case _:
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _MathExplanation implements MathExplanation {
-  const _MathExplanation({required this.topic, required final  List<MathElement> elements}): _elements = elements;
-  factory _MathExplanation.fromJson(Map<String, dynamic> json) => _$MathExplanationFromJson(json);
+class _ExplainResponse implements ExplainResponse {
+  const _ExplainResponse({required this.topic, required final  List<MathElement> elements}): _elements = elements;
+  factory _ExplainResponse.fromJson(Map<String, dynamic> json) => _$ExplainResponseFromJson(json);
 
 @override final  String topic;
  final  List<MathElement> _elements;
@@ -491,20 +222,20 @@ class _MathExplanation implements MathExplanation {
 }
 
 
-/// Create a copy of MathExplanation
+/// Create a copy of ExplainResponse
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$MathExplanationCopyWith<_MathExplanation> get copyWith => __$MathExplanationCopyWithImpl<_MathExplanation>(this, _$identity);
+_$ExplainResponseCopyWith<_ExplainResponse> get copyWith => __$ExplainResponseCopyWithImpl<_ExplainResponse>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$MathExplanationToJson(this, );
+  return _$ExplainResponseToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MathExplanation&&(identical(other.topic, topic) || other.topic == topic)&&const DeepCollectionEquality().equals(other._elements, _elements));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExplainResponse&&(identical(other.topic, topic) || other.topic == topic)&&const DeepCollectionEquality().equals(other._elements, _elements));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -513,15 +244,15 @@ int get hashCode => Object.hash(runtimeType,topic,const DeepCollectionEquality()
 
 @override
 String toString() {
-  return 'MathExplanation(topic: $topic, elements: $elements)';
+  return 'ExplainResponse(topic: $topic, elements: $elements)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$MathExplanationCopyWith<$Res> implements $MathExplanationCopyWith<$Res> {
-  factory _$MathExplanationCopyWith(_MathExplanation value, $Res Function(_MathExplanation) _then) = __$MathExplanationCopyWithImpl;
+abstract mixin class _$ExplainResponseCopyWith<$Res> implements $ExplainResponseCopyWith<$Res> {
+  factory _$ExplainResponseCopyWith(_ExplainResponse value, $Res Function(_ExplainResponse) _then) = __$ExplainResponseCopyWithImpl;
 @override @useResult
 $Res call({
  String topic, List<MathElement> elements
@@ -532,17 +263,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$MathExplanationCopyWithImpl<$Res>
-    implements _$MathExplanationCopyWith<$Res> {
-  __$MathExplanationCopyWithImpl(this._self, this._then);
+class __$ExplainResponseCopyWithImpl<$Res>
+    implements _$ExplainResponseCopyWith<$Res> {
+  __$ExplainResponseCopyWithImpl(this._self, this._then);
 
-  final _MathExplanation _self;
-  final $Res Function(_MathExplanation) _then;
+  final _ExplainResponse _self;
+  final $Res Function(_ExplainResponse) _then;
 
-/// Create a copy of MathExplanation
+/// Create a copy of ExplainResponse
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? topic = null,Object? elements = null,}) {
-  return _then(_MathExplanation(
+  return _then(_ExplainResponse(
 topic: null == topic ? _self.topic : topic // ignore: cast_nullable_to_non_nullable
 as String,elements: null == elements ? _self._elements : elements // ignore: cast_nullable_to_non_nullable
 as List<MathElement>,
@@ -566,6 +297,10 @@ MathElement _$MathElementFromJson(
           );
                 case 'example_steps':
           return _ExampleSteps.fromJson(
+            json
+          );
+                case 'answer_block':
+          return _AnswerBlock.fromJson(
             json
           );
                 case 'bar_chart':
@@ -615,8 +350,7 @@ MathElement _$MathElementFromJson(
 /// @nodoc
 mixin _$MathElement {
 
- String get id; int get order; String? get title;// backend: Optional[str]
- String? get caption;
+ String get id; int get order; String? get title; String? get caption;
 /// Create a copy of MathElement
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -693,13 +427,14 @@ extension MathElementPatterns on MathElement {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _TextBlock value)?  text_block,TResult Function( _Formula value)?  formula,TResult Function( _ExampleSteps value)?  example_steps,TResult Function( _BarChart value)?  bar_chart,TResult Function( _LineChart value)?  line_chart,TResult Function( _LongDivision value)?  long_division,TResult Function( _LifeCycle value)?  life_cycle,TResult Function( _NodeGraph value)?  node_graph,TResult Function( _HexSteps value)?  hex_steps,TResult Function( _HorizontalBlocks value)?  horizontal_blocks,TResult Function( _Pyramid value)?  pyramid,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _TextBlock value)?  text_block,TResult Function( _Formula value)?  formula,TResult Function( _ExampleSteps value)?  example_steps,TResult Function( _AnswerBlock value)?  answer_block,TResult Function( _BarChart value)?  bar_chart,TResult Function( _LineChart value)?  line_chart,TResult Function( _LongDivision value)?  long_division,TResult Function( _LifeCycle value)?  life_cycle,TResult Function( _NodeGraph value)?  node_graph,TResult Function( _HexSteps value)?  hex_steps,TResult Function( _HorizontalBlocks value)?  horizontal_blocks,TResult Function( _Pyramid value)?  pyramid,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _TextBlock() when text_block != null:
 return text_block(_that);case _Formula() when formula != null:
 return formula(_that);case _ExampleSteps() when example_steps != null:
-return example_steps(_that);case _BarChart() when bar_chart != null:
+return example_steps(_that);case _AnswerBlock() when answer_block != null:
+return answer_block(_that);case _BarChart() when bar_chart != null:
 return bar_chart(_that);case _LineChart() when line_chart != null:
 return line_chart(_that);case _LongDivision() when long_division != null:
 return long_division(_that);case _LifeCycle() when life_cycle != null:
@@ -725,13 +460,14 @@ return pyramid(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _TextBlock value)  text_block,required TResult Function( _Formula value)  formula,required TResult Function( _ExampleSteps value)  example_steps,required TResult Function( _BarChart value)  bar_chart,required TResult Function( _LineChart value)  line_chart,required TResult Function( _LongDivision value)  long_division,required TResult Function( _LifeCycle value)  life_cycle,required TResult Function( _NodeGraph value)  node_graph,required TResult Function( _HexSteps value)  hex_steps,required TResult Function( _HorizontalBlocks value)  horizontal_blocks,required TResult Function( _Pyramid value)  pyramid,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _TextBlock value)  text_block,required TResult Function( _Formula value)  formula,required TResult Function( _ExampleSteps value)  example_steps,required TResult Function( _AnswerBlock value)  answer_block,required TResult Function( _BarChart value)  bar_chart,required TResult Function( _LineChart value)  line_chart,required TResult Function( _LongDivision value)  long_division,required TResult Function( _LifeCycle value)  life_cycle,required TResult Function( _NodeGraph value)  node_graph,required TResult Function( _HexSteps value)  hex_steps,required TResult Function( _HorizontalBlocks value)  horizontal_blocks,required TResult Function( _Pyramid value)  pyramid,}){
 final _that = this;
 switch (_that) {
 case _TextBlock():
 return text_block(_that);case _Formula():
 return formula(_that);case _ExampleSteps():
-return example_steps(_that);case _BarChart():
+return example_steps(_that);case _AnswerBlock():
+return answer_block(_that);case _BarChart():
 return bar_chart(_that);case _LineChart():
 return line_chart(_that);case _LongDivision():
 return long_division(_that);case _LifeCycle():
@@ -756,13 +492,14 @@ return pyramid(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _TextBlock value)?  text_block,TResult? Function( _Formula value)?  formula,TResult? Function( _ExampleSteps value)?  example_steps,TResult? Function( _BarChart value)?  bar_chart,TResult? Function( _LineChart value)?  line_chart,TResult? Function( _LongDivision value)?  long_division,TResult? Function( _LifeCycle value)?  life_cycle,TResult? Function( _NodeGraph value)?  node_graph,TResult? Function( _HexSteps value)?  hex_steps,TResult? Function( _HorizontalBlocks value)?  horizontal_blocks,TResult? Function( _Pyramid value)?  pyramid,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _TextBlock value)?  text_block,TResult? Function( _Formula value)?  formula,TResult? Function( _ExampleSteps value)?  example_steps,TResult? Function( _AnswerBlock value)?  answer_block,TResult? Function( _BarChart value)?  bar_chart,TResult? Function( _LineChart value)?  line_chart,TResult? Function( _LongDivision value)?  long_division,TResult? Function( _LifeCycle value)?  life_cycle,TResult? Function( _NodeGraph value)?  node_graph,TResult? Function( _HexSteps value)?  hex_steps,TResult? Function( _HorizontalBlocks value)?  horizontal_blocks,TResult? Function( _Pyramid value)?  pyramid,}){
 final _that = this;
 switch (_that) {
 case _TextBlock() when text_block != null:
 return text_block(_that);case _Formula() when formula != null:
 return formula(_that);case _ExampleSteps() when example_steps != null:
-return example_steps(_that);case _BarChart() when bar_chart != null:
+return example_steps(_that);case _AnswerBlock() when answer_block != null:
+return answer_block(_that);case _BarChart() when bar_chart != null:
 return bar_chart(_that);case _LineChart() when line_chart != null:
 return line_chart(_that);case _LongDivision() when long_division != null:
 return long_division(_that);case _LifeCycle() when life_cycle != null:
@@ -787,12 +524,13 @@ return pyramid(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String id,  int order,  String? title,  String? caption,  String text)?  text_block,TResult Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)?  formula,TResult Function( String id,  int order,  String? title,  String? caption,  List<String> steps)?  example_steps,TResult Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)?  bar_chart,TResult Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)?  line_chart,TResult Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)?  long_division,TResult Function( String id,  int order,  String? title,  String? caption,  List<String> stages)?  life_cycle,TResult Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)?  node_graph,TResult Function( String id,  int order,  String? title,  String? caption,  List<String> items)?  hex_steps,TResult Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)?  horizontal_blocks,TResult Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)?  pyramid,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String id,  int order,  String? title,  String? caption,  String text)?  text_block,TResult Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)?  formula,TResult Function( String id,  int order,  String? title,  String? caption,  List<StepDetail> steps)?  example_steps,TResult Function( String id,  int order,  String? title,  String? caption,  String answer,  String? explanation)?  answer_block,TResult Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)?  bar_chart,TResult Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)?  line_chart,TResult Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)?  long_division,TResult Function( String id,  int order,  String? title,  String? caption,  List<String> stages)?  life_cycle,TResult Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)?  node_graph,TResult Function( String id,  int order,  String? title,  String? caption,  List<String> items)?  hex_steps,TResult Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)?  horizontal_blocks,TResult Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)?  pyramid,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TextBlock() when text_block != null:
 return text_block(_that.id,_that.order,_that.title,_that.caption,_that.text);case _Formula() when formula != null:
 return formula(_that.id,_that.order,_that.title,_that.caption,_that.latex,_that.text);case _ExampleSteps() when example_steps != null:
-return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _BarChart() when bar_chart != null:
+return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _AnswerBlock() when answer_block != null:
+return answer_block(_that.id,_that.order,_that.title,_that.caption,_that.answer,_that.explanation);case _BarChart() when bar_chart != null:
 return bar_chart(_that.id,_that.order,_that.title,_that.caption,_that.data,_that.labels,_that.imageBase64);case _LineChart() when line_chart != null:
 return line_chart(_that.id,_that.order,_that.title,_that.caption,_that.x,_that.y,_that.imageBase64);case _LongDivision() when long_division != null:
 return long_division(_that.id,_that.order,_that.title,_that.caption,_that.dividend,_that.divisor,_that.steps);case _LifeCycle() when life_cycle != null:
@@ -818,12 +556,13 @@ return pyramid(_that.id,_that.order,_that.title,_that.caption,_that.levels);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String id,  int order,  String? title,  String? caption,  String text)  text_block,required TResult Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)  formula,required TResult Function( String id,  int order,  String? title,  String? caption,  List<String> steps)  example_steps,required TResult Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)  bar_chart,required TResult Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)  line_chart,required TResult Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)  long_division,required TResult Function( String id,  int order,  String? title,  String? caption,  List<String> stages)  life_cycle,required TResult Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)  node_graph,required TResult Function( String id,  int order,  String? title,  String? caption,  List<String> items)  hex_steps,required TResult Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)  horizontal_blocks,required TResult Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)  pyramid,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String id,  int order,  String? title,  String? caption,  String text)  text_block,required TResult Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)  formula,required TResult Function( String id,  int order,  String? title,  String? caption,  List<StepDetail> steps)  example_steps,required TResult Function( String id,  int order,  String? title,  String? caption,  String answer,  String? explanation)  answer_block,required TResult Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)  bar_chart,required TResult Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)  line_chart,required TResult Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)  long_division,required TResult Function( String id,  int order,  String? title,  String? caption,  List<String> stages)  life_cycle,required TResult Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)  node_graph,required TResult Function( String id,  int order,  String? title,  String? caption,  List<String> items)  hex_steps,required TResult Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)  horizontal_blocks,required TResult Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)  pyramid,}) {final _that = this;
 switch (_that) {
 case _TextBlock():
 return text_block(_that.id,_that.order,_that.title,_that.caption,_that.text);case _Formula():
 return formula(_that.id,_that.order,_that.title,_that.caption,_that.latex,_that.text);case _ExampleSteps():
-return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _BarChart():
+return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _AnswerBlock():
+return answer_block(_that.id,_that.order,_that.title,_that.caption,_that.answer,_that.explanation);case _BarChart():
 return bar_chart(_that.id,_that.order,_that.title,_that.caption,_that.data,_that.labels,_that.imageBase64);case _LineChart():
 return line_chart(_that.id,_that.order,_that.title,_that.caption,_that.x,_that.y,_that.imageBase64);case _LongDivision():
 return long_division(_that.id,_that.order,_that.title,_that.caption,_that.dividend,_that.divisor,_that.steps);case _LifeCycle():
@@ -848,12 +587,13 @@ return pyramid(_that.id,_that.order,_that.title,_that.caption,_that.levels);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String id,  int order,  String? title,  String? caption,  String text)?  text_block,TResult? Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)?  formula,TResult? Function( String id,  int order,  String? title,  String? caption,  List<String> steps)?  example_steps,TResult? Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)?  bar_chart,TResult? Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)?  line_chart,TResult? Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)?  long_division,TResult? Function( String id,  int order,  String? title,  String? caption,  List<String> stages)?  life_cycle,TResult? Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)?  node_graph,TResult? Function( String id,  int order,  String? title,  String? caption,  List<String> items)?  hex_steps,TResult? Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)?  horizontal_blocks,TResult? Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)?  pyramid,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String id,  int order,  String? title,  String? caption,  String text)?  text_block,TResult? Function( String id,  int order,  String? title,  String? caption,  String? latex,  String? text)?  formula,TResult? Function( String id,  int order,  String? title,  String? caption,  List<StepDetail> steps)?  example_steps,TResult? Function( String id,  int order,  String? title,  String? caption,  String answer,  String? explanation)?  answer_block,TResult? Function( String id,  int order,  String? title,  String? caption,  List<double> data,  List<String> labels, @JsonKey(name: 'image_base64')  String imageBase64)?  bar_chart,TResult? Function( String id,  int order,  String? title,  String? caption,  List<double> x,  List<double> y, @JsonKey(name: 'image_base64')  String imageBase64)?  line_chart,TResult? Function( String id,  int order,  String? title,  String? caption,  int dividend,  int divisor,  List<LongDivisionStep> steps)?  long_division,TResult? Function( String id,  int order,  String? title,  String? caption,  List<String> stages)?  life_cycle,TResult? Function( String id,  int order,  String? title,  String? caption,  List<GraphNode> nodes,  List<GraphEdge> edges)?  node_graph,TResult? Function( String id,  int order,  String? title,  String? caption,  List<String> items)?  hex_steps,TResult? Function( String id,  int order,  String? title,  String? caption,  List<HorizontalItem> items)?  horizontal_blocks,TResult? Function( String id,  int order,  String? title,  String? caption,  List<List<String>> levels)?  pyramid,}) {final _that = this;
 switch (_that) {
 case _TextBlock() when text_block != null:
 return text_block(_that.id,_that.order,_that.title,_that.caption,_that.text);case _Formula() when formula != null:
 return formula(_that.id,_that.order,_that.title,_that.caption,_that.latex,_that.text);case _ExampleSteps() when example_steps != null:
-return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _BarChart() when bar_chart != null:
+return example_steps(_that.id,_that.order,_that.title,_that.caption,_that.steps);case _AnswerBlock() when answer_block != null:
+return answer_block(_that.id,_that.order,_that.title,_that.caption,_that.answer,_that.explanation);case _BarChart() when bar_chart != null:
 return bar_chart(_that.id,_that.order,_that.title,_that.caption,_that.data,_that.labels,_that.imageBase64);case _LineChart() when line_chart != null:
 return line_chart(_that.id,_that.order,_that.title,_that.caption,_that.x,_that.y,_that.imageBase64);case _LongDivision() when long_division != null:
 return long_division(_that.id,_that.order,_that.title,_that.caption,_that.dividend,_that.divisor,_that.steps);case _LifeCycle() when life_cycle != null:
@@ -879,7 +619,6 @@ class _TextBlock implements MathElement {
 @override final  String id;
 @override final  int order;
 @override final  String? title;
-// backend: Optional[str]
 @override final  String? caption;
  final  String text;
 
@@ -1038,15 +777,15 @@ as String?,
 @JsonSerializable()
 
 class _ExampleSteps implements MathElement {
-  const _ExampleSteps({required this.id, required this.order, this.title, this.caption, required final  List<String> steps, final  String? $type}): _steps = steps,$type = $type ?? 'example_steps';
+  const _ExampleSteps({required this.id, required this.order, this.title, this.caption, required final  List<StepDetail> steps, final  String? $type}): _steps = steps,$type = $type ?? 'example_steps';
   factory _ExampleSteps.fromJson(Map<String, dynamic> json) => _$ExampleStepsFromJson(json);
 
 @override final  String id;
 @override final  int order;
 @override final  String? title;
 @override final  String? caption;
- final  List<String> _steps;
- List<String> get steps {
+ final  List<StepDetail> _steps;
+ List<StepDetail> get steps {
   if (_steps is EqualUnmodifiableListView) return _steps;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_steps);
@@ -1090,7 +829,7 @@ abstract mixin class _$ExampleStepsCopyWith<$Res> implements $MathElementCopyWit
   factory _$ExampleStepsCopyWith(_ExampleSteps value, $Res Function(_ExampleSteps) _then) = __$ExampleStepsCopyWithImpl;
 @override @useResult
 $Res call({
- String id, int order, String? title, String? caption, List<String> steps
+ String id, int order, String? title, String? caption, List<StepDetail> steps
 });
 
 
@@ -1114,7 +853,90 @@ as String,order: null == order ? _self.order : order // ignore: cast_nullable_to
 as int,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,caption: freezed == caption ? _self.caption : caption // ignore: cast_nullable_to_non_nullable
 as String?,steps: null == steps ? _self._steps : steps // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<StepDetail>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AnswerBlock implements MathElement {
+  const _AnswerBlock({required this.id, required this.order, this.title, this.caption, required this.answer, this.explanation, final  String? $type}): $type = $type ?? 'answer_block';
+  factory _AnswerBlock.fromJson(Map<String, dynamic> json) => _$AnswerBlockFromJson(json);
+
+@override final  String id;
+@override final  int order;
+@override final  String? title;
+@override final  String? caption;
+ final  String answer;
+ final  String? explanation;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of MathElement
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AnswerBlockCopyWith<_AnswerBlock> get copyWith => __$AnswerBlockCopyWithImpl<_AnswerBlock>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AnswerBlockToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnswerBlock&&(identical(other.id, id) || other.id == id)&&(identical(other.order, order) || other.order == order)&&(identical(other.title, title) || other.title == title)&&(identical(other.caption, caption) || other.caption == caption)&&(identical(other.answer, answer) || other.answer == answer)&&(identical(other.explanation, explanation) || other.explanation == explanation));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,order,title,caption,answer,explanation);
+
+@override
+String toString() {
+  return 'MathElement.answer_block(id: $id, order: $order, title: $title, caption: $caption, answer: $answer, explanation: $explanation)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AnswerBlockCopyWith<$Res> implements $MathElementCopyWith<$Res> {
+  factory _$AnswerBlockCopyWith(_AnswerBlock value, $Res Function(_AnswerBlock) _then) = __$AnswerBlockCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, int order, String? title, String? caption, String answer, String? explanation
+});
+
+
+
+
+}
+/// @nodoc
+class __$AnswerBlockCopyWithImpl<$Res>
+    implements _$AnswerBlockCopyWith<$Res> {
+  __$AnswerBlockCopyWithImpl(this._self, this._then);
+
+  final _AnswerBlock _self;
+  final $Res Function(_AnswerBlock) _then;
+
+/// Create a copy of MathElement
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? order = null,Object? title = freezed,Object? caption = freezed,Object? answer = null,Object? explanation = freezed,}) {
+  return _then(_AnswerBlock(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as int,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,caption: freezed == caption ? _self.caption : caption // ignore: cast_nullable_to_non_nullable
+as String?,answer: null == answer ? _self.answer : answer // ignore: cast_nullable_to_non_nullable
+as String,explanation: freezed == explanation ? _self.explanation : explanation // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -1851,42 +1673,42 @@ as List<List<String>>,
 
 
 /// @nodoc
-mixin _$HorizontalItem {
+mixin _$StepDetail {
 
- String get title; String get desc;
-/// Create a copy of HorizontalItem
+@JsonKey(name: 'step_num') int get stepNum;@JsonKey(name: 'step_text') String get stepText;
+/// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$HorizontalItemCopyWith<HorizontalItem> get copyWith => _$HorizontalItemCopyWithImpl<HorizontalItem>(this as HorizontalItem, _$identity);
+$StepDetailCopyWith<StepDetail> get copyWith => _$StepDetailCopyWithImpl<StepDetail>(this as StepDetail, _$identity);
 
-  /// Serializes this HorizontalItem to a JSON map.
+  /// Serializes this StepDetail to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HorizontalItem&&(identical(other.title, title) || other.title == title)&&(identical(other.desc, desc) || other.desc == desc));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StepDetail&&(identical(other.stepNum, stepNum) || other.stepNum == stepNum)&&(identical(other.stepText, stepText) || other.stepText == stepText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,desc);
+int get hashCode => Object.hash(runtimeType,stepNum,stepText);
 
 @override
 String toString() {
-  return 'HorizontalItem(title: $title, desc: $desc)';
+  return 'StepDetail(stepNum: $stepNum, stepText: $stepText)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $HorizontalItemCopyWith<$Res>  {
-  factory $HorizontalItemCopyWith(HorizontalItem value, $Res Function(HorizontalItem) _then) = _$HorizontalItemCopyWithImpl;
+abstract mixin class $StepDetailCopyWith<$Res>  {
+  factory $StepDetailCopyWith(StepDetail value, $Res Function(StepDetail) _then) = _$StepDetailCopyWithImpl;
 @useResult
 $Res call({
- String title, String desc
+@JsonKey(name: 'step_num') int stepNum,@JsonKey(name: 'step_text') String stepText
 });
 
 
@@ -1894,19 +1716,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$HorizontalItemCopyWithImpl<$Res>
-    implements $HorizontalItemCopyWith<$Res> {
-  _$HorizontalItemCopyWithImpl(this._self, this._then);
+class _$StepDetailCopyWithImpl<$Res>
+    implements $StepDetailCopyWith<$Res> {
+  _$StepDetailCopyWithImpl(this._self, this._then);
 
-  final HorizontalItem _self;
-  final $Res Function(HorizontalItem) _then;
+  final StepDetail _self;
+  final $Res Function(StepDetail) _then;
 
-/// Create a copy of HorizontalItem
+/// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? desc = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? stepNum = null,Object? stepText = null,}) {
   return _then(_self.copyWith(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,desc: null == desc ? _self.desc : desc // ignore: cast_nullable_to_non_nullable
+stepNum: null == stepNum ? _self.stepNum : stepNum // ignore: cast_nullable_to_non_nullable
+as int,stepText: null == stepText ? _self.stepText : stepText // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -1914,8 +1736,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [HorizontalItem].
-extension HorizontalItemPatterns on HorizontalItem {
+/// Adds pattern-matching-related methods to [StepDetail].
+extension StepDetailPatterns on StepDetail {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1928,10 +1750,10 @@ extension HorizontalItemPatterns on HorizontalItem {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HorizontalItem value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StepDetail value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _HorizontalItem() when $default != null:
+case _StepDetail() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1950,10 +1772,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HorizontalItem value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StepDetail value)  $default,){
 final _that = this;
 switch (_that) {
-case _HorizontalItem():
+case _StepDetail():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1971,10 +1793,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HorizontalItem value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StepDetail value)?  $default,){
 final _that = this;
 switch (_that) {
-case _HorizontalItem() when $default != null:
+case _StepDetail() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1992,10 +1814,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String desc)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'step_num')  int stepNum, @JsonKey(name: 'step_text')  String stepText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _HorizontalItem() when $default != null:
-return $default(_that.title,_that.desc);case _:
+case _StepDetail() when $default != null:
+return $default(_that.stepNum,_that.stepText);case _:
   return orElse();
 
 }
@@ -2013,10 +1835,10 @@ return $default(_that.title,_that.desc);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String desc)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'step_num')  int stepNum, @JsonKey(name: 'step_text')  String stepText)  $default,) {final _that = this;
 switch (_that) {
-case _HorizontalItem():
-return $default(_that.title,_that.desc);case _:
+case _StepDetail():
+return $default(_that.stepNum,_that.stepText);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2033,10 +1855,10 @@ return $default(_that.title,_that.desc);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String desc)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'step_num')  int stepNum, @JsonKey(name: 'step_text')  String stepText)?  $default,) {final _that = this;
 switch (_that) {
-case _HorizontalItem() when $default != null:
-return $default(_that.title,_that.desc);case _:
+case _StepDetail() when $default != null:
+return $default(_that.stepNum,_that.stepText);case _:
   return null;
 
 }
@@ -2047,47 +1869,47 @@ return $default(_that.title,_that.desc);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _HorizontalItem implements HorizontalItem {
-  const _HorizontalItem({required this.title, required this.desc});
-  factory _HorizontalItem.fromJson(Map<String, dynamic> json) => _$HorizontalItemFromJson(json);
+class _StepDetail implements StepDetail {
+  const _StepDetail({@JsonKey(name: 'step_num') required this.stepNum, @JsonKey(name: 'step_text') required this.stepText});
+  factory _StepDetail.fromJson(Map<String, dynamic> json) => _$StepDetailFromJson(json);
 
-@override final  String title;
-@override final  String desc;
+@override@JsonKey(name: 'step_num') final  int stepNum;
+@override@JsonKey(name: 'step_text') final  String stepText;
 
-/// Create a copy of HorizontalItem
+/// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$HorizontalItemCopyWith<_HorizontalItem> get copyWith => __$HorizontalItemCopyWithImpl<_HorizontalItem>(this, _$identity);
+_$StepDetailCopyWith<_StepDetail> get copyWith => __$StepDetailCopyWithImpl<_StepDetail>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$HorizontalItemToJson(this, );
+  return _$StepDetailToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HorizontalItem&&(identical(other.title, title) || other.title == title)&&(identical(other.desc, desc) || other.desc == desc));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StepDetail&&(identical(other.stepNum, stepNum) || other.stepNum == stepNum)&&(identical(other.stepText, stepText) || other.stepText == stepText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,desc);
+int get hashCode => Object.hash(runtimeType,stepNum,stepText);
 
 @override
 String toString() {
-  return 'HorizontalItem(title: $title, desc: $desc)';
+  return 'StepDetail(stepNum: $stepNum, stepText: $stepText)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$HorizontalItemCopyWith<$Res> implements $HorizontalItemCopyWith<$Res> {
-  factory _$HorizontalItemCopyWith(_HorizontalItem value, $Res Function(_HorizontalItem) _then) = __$HorizontalItemCopyWithImpl;
+abstract mixin class _$StepDetailCopyWith<$Res> implements $StepDetailCopyWith<$Res> {
+  factory _$StepDetailCopyWith(_StepDetail value, $Res Function(_StepDetail) _then) = __$StepDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String desc
+@JsonKey(name: 'step_num') int stepNum,@JsonKey(name: 'step_text') String stepText
 });
 
 
@@ -2095,19 +1917,19 @@ $Res call({
 
 }
 /// @nodoc
-class __$HorizontalItemCopyWithImpl<$Res>
-    implements _$HorizontalItemCopyWith<$Res> {
-  __$HorizontalItemCopyWithImpl(this._self, this._then);
+class __$StepDetailCopyWithImpl<$Res>
+    implements _$StepDetailCopyWith<$Res> {
+  __$StepDetailCopyWithImpl(this._self, this._then);
 
-  final _HorizontalItem _self;
-  final $Res Function(_HorizontalItem) _then;
+  final _StepDetail _self;
+  final $Res Function(_StepDetail) _then;
 
-/// Create a copy of HorizontalItem
+/// Create a copy of StepDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? desc = null,}) {
-  return _then(_HorizontalItem(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,desc: null == desc ? _self.desc : desc // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? stepNum = null,Object? stepText = null,}) {
+  return _then(_StepDetail(
+stepNum: null == stepNum ? _self.stepNum : stepNum // ignore: cast_nullable_to_non_nullable
+as int,stepText: null == stepText ? _self.stepText : stepText // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -2913,6 +2735,272 @@ source: null == source ? _self.source : source // ignore: cast_nullable_to_non_n
 as String,target: null == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as String,label: freezed == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$HorizontalItem {
+
+ String get title; String get desc;
+/// Create a copy of HorizontalItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HorizontalItemCopyWith<HorizontalItem> get copyWith => _$HorizontalItemCopyWithImpl<HorizontalItem>(this as HorizontalItem, _$identity);
+
+  /// Serializes this HorizontalItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HorizontalItem&&(identical(other.title, title) || other.title == title)&&(identical(other.desc, desc) || other.desc == desc));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,title,desc);
+
+@override
+String toString() {
+  return 'HorizontalItem(title: $title, desc: $desc)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HorizontalItemCopyWith<$Res>  {
+  factory $HorizontalItemCopyWith(HorizontalItem value, $Res Function(HorizontalItem) _then) = _$HorizontalItemCopyWithImpl;
+@useResult
+$Res call({
+ String title, String desc
+});
+
+
+
+
+}
+/// @nodoc
+class _$HorizontalItemCopyWithImpl<$Res>
+    implements $HorizontalItemCopyWith<$Res> {
+  _$HorizontalItemCopyWithImpl(this._self, this._then);
+
+  final HorizontalItem _self;
+  final $Res Function(HorizontalItem) _then;
+
+/// Create a copy of HorizontalItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? desc = null,}) {
+  return _then(_self.copyWith(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,desc: null == desc ? _self.desc : desc // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HorizontalItem].
+extension HorizontalItemPatterns on HorizontalItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HorizontalItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HorizontalItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HorizontalItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _HorizontalItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HorizontalItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HorizontalItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String desc)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HorizontalItem() when $default != null:
+return $default(_that.title,_that.desc);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String desc)  $default,) {final _that = this;
+switch (_that) {
+case _HorizontalItem():
+return $default(_that.title,_that.desc);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String desc)?  $default,) {final _that = this;
+switch (_that) {
+case _HorizontalItem() when $default != null:
+return $default(_that.title,_that.desc);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _HorizontalItem implements HorizontalItem {
+  const _HorizontalItem({required this.title, required this.desc});
+  factory _HorizontalItem.fromJson(Map<String, dynamic> json) => _$HorizontalItemFromJson(json);
+
+@override final  String title;
+@override final  String desc;
+
+/// Create a copy of HorizontalItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HorizontalItemCopyWith<_HorizontalItem> get copyWith => __$HorizontalItemCopyWithImpl<_HorizontalItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HorizontalItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HorizontalItem&&(identical(other.title, title) || other.title == title)&&(identical(other.desc, desc) || other.desc == desc));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,title,desc);
+
+@override
+String toString() {
+  return 'HorizontalItem(title: $title, desc: $desc)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HorizontalItemCopyWith<$Res> implements $HorizontalItemCopyWith<$Res> {
+  factory _$HorizontalItemCopyWith(_HorizontalItem value, $Res Function(_HorizontalItem) _then) = __$HorizontalItemCopyWithImpl;
+@override @useResult
+$Res call({
+ String title, String desc
+});
+
+
+
+
+}
+/// @nodoc
+class __$HorizontalItemCopyWithImpl<$Res>
+    implements _$HorizontalItemCopyWith<$Res> {
+  __$HorizontalItemCopyWithImpl(this._self, this._then);
+
+  final _HorizontalItem _self;
+  final $Res Function(_HorizontalItem) _then;
+
+/// Create a copy of HorizontalItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? desc = null,}) {
+  return _then(_HorizontalItem(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,desc: null == desc ? _self.desc : desc // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

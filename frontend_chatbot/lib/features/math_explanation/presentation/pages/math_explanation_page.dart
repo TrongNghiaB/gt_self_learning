@@ -44,7 +44,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
         actions: [
           BlocBuilder<MathExplanationBloc, MathExplanationState>(
             builder: (context, state) {
-              if (state.explanation != null) {
+              if (state.explainResponse != null) {
                 return IconButton(
                   icon: const Icon(Icons.refresh),
                   onPressed: () {
@@ -83,7 +83,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
       body: BlocBuilder<MathExplanationBloc, MathExplanationState>(
         builder: (context, state) {
           final isLoading = state.status == MathExplanationStatus.loading;
-          final explanation = state.explanation;
+          final explainResponse = state.explainResponse;
           final error = state.error;
           final selectedModel = state.selectedModel;
 
@@ -299,7 +299,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
                   ),
 
                 // Explanation content
-                if (explanation != null) ...[
+                if (explainResponse != null) ...[
                   const SizedBox(height: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,7 +314,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
                           border: Border.all(color: Colors.blue.shade200),
                         ),
                         child: Text(
-                          explanation.topic,
+                          explainResponse.topic,
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -325,7 +325,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
                       const SizedBox(height: 16),
 
                       // Elements
-                      ...explanation.elements
+                      ...explainResponse.elements
                           .map((element) => MathElementWidget(element: element))
                           .toList(),
                     ],
@@ -333,7 +333,7 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
                 ],
 
                 // Empty state
-                if (!isLoading && explanation == null && error == null) ...[
+                if (!isLoading && explainResponse == null && error == null) ...[
                   const SizedBox(height: 32),
                   Column(
                     children: [

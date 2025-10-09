@@ -6,29 +6,15 @@ part of 'math_explanation.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ExplainRequest _$ExplainRequestFromJson(Map<String, dynamic> json) =>
-    _ExplainRequest(
-      query: json['query'] as String,
-      locale: json['locale'] as String? ?? 'en',
-      model: json['model'] as String?,
-    );
-
-Map<String, dynamic> _$ExplainRequestToJson(_ExplainRequest instance) =>
-    <String, dynamic>{
-      'query': instance.query,
-      'locale': instance.locale,
-      'model': instance.model,
-    };
-
-_MathExplanation _$MathExplanationFromJson(Map<String, dynamic> json) =>
-    _MathExplanation(
+_ExplainResponse _$ExplainResponseFromJson(Map<String, dynamic> json) =>
+    _ExplainResponse(
       topic: json['topic'] as String,
       elements: (json['elements'] as List<dynamic>)
           .map((e) => MathElement.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$MathExplanationToJson(_MathExplanation instance) =>
+Map<String, dynamic> _$ExplainResponseToJson(_ExplainResponse instance) =>
     <String, dynamic>{
       'topic': instance.topic,
       'elements': instance.elements.map((e) => e.toJson()).toList(),
@@ -79,7 +65,9 @@ _ExampleSteps _$ExampleStepsFromJson(Map<String, dynamic> json) =>
       order: (json['order'] as num).toInt(),
       title: json['title'] as String?,
       caption: json['caption'] as String?,
-      steps: (json['steps'] as List<dynamic>).map((e) => e as String).toList(),
+      steps: (json['steps'] as List<dynamic>)
+          .map((e) => StepDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       $type: json['type'] as String?,
     );
 
@@ -90,6 +78,27 @@ Map<String, dynamic> _$ExampleStepsToJson(_ExampleSteps instance) =>
       'title': instance.title,
       'caption': instance.caption,
       'steps': instance.steps,
+      'type': instance.$type,
+    };
+
+_AnswerBlock _$AnswerBlockFromJson(Map<String, dynamic> json) => _AnswerBlock(
+  id: json['id'] as String,
+  order: (json['order'] as num).toInt(),
+  title: json['title'] as String?,
+  caption: json['caption'] as String?,
+  answer: json['answer'] as String,
+  explanation: json['explanation'] as String?,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$AnswerBlockToJson(_AnswerBlock instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'order': instance.order,
+      'title': instance.title,
+      'caption': instance.caption,
+      'answer': instance.answer,
+      'explanation': instance.explanation,
       'type': instance.$type,
     };
 
@@ -270,14 +279,16 @@ Map<String, dynamic> _$PyramidToJson(_Pyramid instance) => <String, dynamic>{
   'type': instance.$type,
 };
 
-_HorizontalItem _$HorizontalItemFromJson(Map<String, dynamic> json) =>
-    _HorizontalItem(
-      title: json['title'] as String,
-      desc: json['desc'] as String,
-    );
+_StepDetail _$StepDetailFromJson(Map<String, dynamic> json) => _StepDetail(
+  stepNum: (json['step_num'] as num).toInt(),
+  stepText: json['step_text'] as String,
+);
 
-Map<String, dynamic> _$HorizontalItemToJson(_HorizontalItem instance) =>
-    <String, dynamic>{'title': instance.title, 'desc': instance.desc};
+Map<String, dynamic> _$StepDetailToJson(_StepDetail instance) =>
+    <String, dynamic>{
+      'step_num': instance.stepNum,
+      'step_text': instance.stepText,
+    };
 
 _LongDivisionStep _$LongDivisionStepFromJson(Map<String, dynamic> json) =>
     _LongDivisionStep(
@@ -311,3 +322,12 @@ Map<String, dynamic> _$GraphEdgeToJson(_GraphEdge instance) =>
       'target': instance.target,
       'label': instance.label,
     };
+
+_HorizontalItem _$HorizontalItemFromJson(Map<String, dynamic> json) =>
+    _HorizontalItem(
+      title: json['title'] as String,
+      desc: json['desc'] as String,
+    );
+
+Map<String, dynamic> _$HorizontalItemToJson(_HorizontalItem instance) =>
+    <String, dynamic>{'title': instance.title, 'desc': instance.desc};

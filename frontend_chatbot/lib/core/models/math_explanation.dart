@@ -3,43 +3,29 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'math_explanation.freezed.dart';
 part 'math_explanation.g.dart';
 
-/// -------------------- REQUEST --------------------
-
+/// ======================= TOP-LEVEL RESPONSE =======================
+/// Khớp với Python: class ExplainResponse { topic, elements }
 @freezed
-abstract class ExplainRequest with _$ExplainRequest {
-  const factory ExplainRequest({
-    required String query,
-    @Default('en') String locale,
-    String? model,
-  }) = _ExplainRequest;
-
-  factory ExplainRequest.fromJson(Map<String, dynamic> json) =>
-      _$ExplainRequestFromJson(json);
-}
-
-/// -------------------- RESPONSE (TOP LEVEL) --------------------
-
-@freezed
-abstract class MathExplanation with _$MathExplanation {
+abstract class ExplainResponse with _$ExplainResponse {
   @JsonSerializable(explicitToJson: true)
-  const factory MathExplanation({
+  const factory ExplainResponse({
     required String topic,
     required List<MathElement> elements,
-  }) = _MathExplanation;
+  }) = _ExplainResponse;
 
-  factory MathExplanation.fromJson(Map<String, dynamic> json) =>
-      _$MathExplanationFromJson(json);
+  factory ExplainResponse.fromJson(Map<String, dynamic> json) =>
+      _$ExplainResponseFromJson(json);
 }
 
-/// -------------------- ELEMENTS (SEALED UNION) --------------------
-/// Khớp 100% với backend Python: union key = "type", union value = snake_case.
+/// ======================= SEALED UNION: ELEMENTS =======================
+/// Union key = "type", snake_case. Mỗi biến thể khớp chính xác backend.
 @Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
 abstract class MathElement with _$MathElement {
   /// text_block
   const factory MathElement.text_block({
     required String id,
     required int order,
-    String? title, // backend: Optional[str]
+    String? title,
     String? caption,
     required String text,
   }) = _TextBlock;
@@ -54,14 +40,24 @@ abstract class MathElement with _$MathElement {
     String? text,
   }) = _Formula;
 
-  /// example_steps
+  /// example_steps — steps: list[StepDetail]
   const factory MathElement.example_steps({
     required String id,
     required int order,
     String? title,
     String? caption,
-    required List<String> steps,
+    required List<StepDetail> steps,
   }) = _ExampleSteps;
+
+  /// answer_block
+  const factory MathElement.answer_block({
+    required String id,
+    required int order,
+    String? title,
+    String? caption,
+    required String answer,
+    String? explanation,
+  }) = _AnswerBlock;
 
   /// bar_chart
   const factory MathElement.bar_chart({
@@ -146,19 +142,21 @@ abstract class MathElement with _$MathElement {
       _$MathElementFromJson(json);
 }
 
-/// -------------------- SUPPORTING TYPES --------------------
+/// ======================= SUPPORTING TYPES =======================
 
-/// Item used inside `horizontal_blocks`
+/// StepDetail cho example_steps
 @freezed
-abstract class HorizontalItem with _$HorizontalItem {
-  const factory HorizontalItem({required String title, required String desc}) =
-      _HorizontalItem;
+abstract class StepDetail with _$StepDetail {
+  const factory StepDetail({
+    @JsonKey(name: 'step_num') required int stepNum,
+    @JsonKey(name: 'step_text') required String stepText,
+  }) = _StepDetail;
 
-  factory HorizontalItem.fromJson(Map<String, dynamic> json) =>
-      _$HorizontalItemFromJson(json);
+  factory StepDetail.fromJson(Map<String, dynamic> json) =>
+      _$StepDetailFromJson(json);
 }
 
-/// Long division step (khớp tên snake_case của backend)
+/// LongDivisionStep
 @freezed
 abstract class LongDivisionStep with _$LongDivisionStep {
   const factory LongDivisionStep({
@@ -191,4 +189,14 @@ abstract class GraphEdge with _$GraphEdge {
 
   factory GraphEdge.fromJson(Map<String, dynamic> json) =>
       _$GraphEdgeFromJson(json);
+}
+
+/// Item dùng cho horizontal_blocks
+@freezed
+abstract class HorizontalItem with _$HorizontalItem {
+  const factory HorizontalItem({required String title, required String desc}) =
+      _HorizontalItem;
+
+  factory HorizontalItem.fromJson(Map<String, dynamic> json) =>
+      _$HorizontalItemFromJson(json);
 }
