@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:frontend_chatbot/core/router/app_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/bloc/math_explanation/math_explanation_bloc.dart';
@@ -42,6 +43,13 @@ class _MathExplanationPageState extends State<MathExplanationPage> {
         backgroundColor: Colors.blue.shade600,
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              context.router.push(const ConversationListRoute());
+            },
+            tooltip: 'Conversation History',
+          ),
           BlocBuilder<MathExplanationBloc, MathExplanationState>(
             builder: (context, state) {
               if (state.explainResponse != null) {

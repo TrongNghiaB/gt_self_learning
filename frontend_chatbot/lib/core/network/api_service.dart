@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend_chatbot/core/constants/constants.dart';
+import 'package:frontend_chatbot/core/models/conversation.dart';
 import 'package:logger/logger.dart';
 
 class ApiService {
@@ -121,6 +122,106 @@ class ApiService {
         _logger.e('  Response data: ${e.response?.data}');
         _logger.e('  Request data: ${e.requestOptions.data}');
         _logger.e('  Request headers: ${e.requestOptions.headers}');
+      }
+      rethrow;
+    }
+  }
+
+  /// Get paginated list of conversations
+  Future<ConversationListResponse> getConversations({
+    int limit = 10,
+    String? cursor,
+  }) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception('User not authenticated');
+      }
+
+      final token = await user.getIdToken();
+      final queryParams = <String, dynamic>{'limit': limit};
+
+      if (cursor != null) {
+        queryParams['cursor'] = cursor;
+      }
+
+      _logger.d('Getting conversations with limit: $limit, cursor: $cursor');
+
+      final response = await _dio.get(
+        '/api/conversations/',
+        queryParameters: queryParams,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      _logger.d('Conversations response: ${response.data}');
+      return ConversationListResponse.fromJson(response.data);
+    } catch (e) {
+      _logger.e('Get conversations failed: $e');
+      if (e is DioException) {
+        _logger.e('DioException details:');
+        _logger.e('  Status code: ${e.response?.statusCode}');
+        _logger.e('  Response data: ${e.response?.data}');
+      }
+      rethrow;
+    }
+  }
+
+  /// Get conversation details
+  Future<ConversationDetail> getConversationDetail(
+    String conversationId,
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception('User not authenticated');
+      }
+
+      final token = await user.getIdToken();
+
+      _logger.d('Getting conversation detail for ID: $conversationId');
+
+      final response = await _dio.get(
+        '/api/conversations/$conversationId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      _logger.d('Conversation detail response: ${response.data}');
+      return ConversationDetail.fromJson(response.data);
+    } catch (e) {
+      _logger.e('Get conversation detail failed: $e');
+      if (e is DioException) {
+        _logger.e('DioException details:');
+        _logger.e('  Status code: ${e.response?.statusCode}');
+        _logger.e('  Response data: ${e.response?.data}');
+      }
+      rethrow;
+    }
+  }
+
+  /// Delete conversation
+  Future<void> deleteConversation(String conversationId) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception('User not authenticated');
+      }
+
+      final token = await user.getIdToken();
+
+      _logger.d('Deleting conversation with ID: $conversationId');
+
+      await _dio.delete(
+        '/api/conversations/$conversationId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      _logger.d('Conversation deleted successfully');
+    } catch (e) {
+      _logger.e('Delete conversation failed: $e');
+      if (e is DioException) {
+        _logger.e('DioException details:');
+        _logger.e('  Status code: ${e.response?.statusCode}');
+        _logger.e('  Response data: ${e.response?.data}');
       }
       rethrow;
     }
