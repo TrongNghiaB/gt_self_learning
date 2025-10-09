@@ -29,6 +29,7 @@ class OpenAIClient:
         response_model: type,
         model: str = "gpt-4o-mini",
         temperature: float = 0.7,
+        image_paths: list[str] = None,
     ) -> Result[any, LLMError]:
         """
         Call OpenAI chat completion with structured output using Pydantic model.
@@ -38,6 +39,7 @@ class OpenAIClient:
             response_model: Pydantic model class for structured output
             model: Model name (default: gpt-4o-mini)
             temperature: Sampling temperature (0-2)
+            image_paths: List of image file paths for vision models
 
         Returns:
             Result containing parsed Pydantic model or LLMError
@@ -46,13 +48,43 @@ class OpenAIClient:
             return Err(LLMError(message="OpenAI API key not configured"))
 
         try:
-            # Use traditional chat completion with JSON mode
-            response = await self.async_client.chat.completions.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                response_format={"type": "json_object"}
-            )
+            # Use vision model if images are provided
+            if image_paths:
+                
+                # Convert messages to include images
+                vision_messages = []
+                for msg in messages:
+                    if msg["role"] == "user" and image_paths:
+                        # Add images to user message
+                        content = [{"type": "text", "text": msg["content"]}]
+                        for image_path in image_paths:
+                            import base64
+                            with open(image_path, "rb") as image_file:
+                                base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+                                content.append({
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{base64_image}"
+                                    }
+                                })
+                        vision_messages.append({"role": msg["role"], "content": content})
+                    else:
+                        vision_messages.append(msg)
+                
+                response = await self.async_client.chat.completions.create(
+                    model=model,
+                    messages=vision_messages,
+                    temperature=temperature,
+                    response_format={"type": "json_object"}
+                )
+            else:
+                # Use traditional chat completion with JSON mode
+                response = await self.async_client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    response_format={"type": "json_object"}
+                )
             
             content = response.choices[0].message.content
             if not content:

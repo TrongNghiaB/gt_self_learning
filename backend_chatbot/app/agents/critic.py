@@ -28,12 +28,12 @@ class CriticAgent:
                 )
             )
 
-        # Rule 2: Must have at least one text block
-        has_text_block = any(elem.type == "text_block" for elem in elements)
-        if not has_text_block:
+        # Rule 2: Must have at least one text block or answer block
+        has_text_content = any(elem.type in ["text_block", "answer_block"] for elem in elements)
+        if not has_text_content:
             return Err(
                 ValidationError(
-                    message="Must have at least one text_block element",
+                    message="Must have at least one text_block or answer_block element",
                     details={"element_count": len(elements)},
                 )
             )

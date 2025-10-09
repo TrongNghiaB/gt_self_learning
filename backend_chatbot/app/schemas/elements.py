@@ -26,6 +26,13 @@ class Formula(BaseModel):
     text: Optional[str] = None
 
 
+class StepDetail(BaseModel):
+    """Single step in solution."""
+    
+    step_num: int
+    step_text: str
+
+
 class ExampleSteps(BaseModel):
     """Step-by-step example solution."""
 
@@ -34,7 +41,19 @@ class ExampleSteps(BaseModel):
     order: int
     title: Optional[str] = None
     caption: Optional[str] = None
-    steps: list[str]
+    steps: list[StepDetail]
+
+
+class AnswerBlock(BaseModel):
+    """Final answer block."""
+
+    id: str
+    type: Literal["answer_block"] = "answer_block"
+    order: int
+    title: Optional[str] = None
+    caption: Optional[str] = None
+    answer: str
+    explanation: Optional[str] = None
 
 
 class BarChart(BaseModel):
@@ -167,6 +186,7 @@ Element = Union[
     TextBlock,
     Formula,
     ExampleSteps,
+    AnswerBlock,
     BarChart,
     LineChart,
     LongDivision,

@@ -7,6 +7,8 @@ from app.schemas.elements import (
     TextBlock,
     Formula,
     ExampleSteps,
+    AnswerBlock,
+    StepDetail,
     BarChart,
     LineChart,
     LongDivision,
@@ -56,18 +58,18 @@ class RendererAgent:
             elements: list[Element] = []
             order = 0
 
-            # 1. Introduction text block (always first)
-            if plan.needs_intro:
-                elements.append(
-                    TextBlock(
-                        id=f"elem_{order}",
-                        type="text_block",
-                        order=order,
-                        title="Introduction",
-                        text=math_solution.explanation,
-                    )
+            # 1. Final Answer Block (always first)
+            elements.append(
+                AnswerBlock(
+                    id=f"elem_{order}",
+                    type="answer_block",
+                    order=order,
+                    title="Final Answer",
+                    answer=math_solution.final_answer,
+                    explanation=math_solution.explanation,
                 )
-                order += 1
+            )
+            order += 1
 
             # 2. Formula (if needed)
             if plan.needs_formula and (
@@ -85,15 +87,25 @@ class RendererAgent:
                 )
                 order += 1
 
-            # 3. Example steps (if needed)
-            if plan.needs_example and math_solution.example_steps:
+            # 3. Solution Steps (if available)
+            if math_solution.solution_steps:
+                # Convert dict format to StepDetail objects
+                step_details = []
+                for step_dict in math_solution.solution_steps:
+                    step_details.append(
+                        StepDetail(
+                            step_num=int(step_dict.get("step_num", 0)),
+                            step_text=step_dict.get("step_text", "")
+                        )
+                    )
+                
                 elements.append(
                     ExampleSteps(
                         id=f"elem_{order}",
                         type="example_steps",
                         order=order,
-                        title="Worked Example",
-                        steps=math_solution.example_steps,
+                        title="Solution Steps",
+                        steps=step_details,
                     )
                 )
                 order += 1

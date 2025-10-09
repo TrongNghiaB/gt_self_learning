@@ -80,10 +80,12 @@ class PlannerAgent:
 
     def _create_planning_prompt(self, query: str, locale: str) -> str:
         """Create prompt for LLM to generate plan."""
-        return f"""Analyze this math question and create a structured learning plan.
+        return f"""Analyze this specific math problem and create a focused solution plan.
 
 Question: {query}
 Language: {locale}
+
+This is a specific mathematical problem that needs to be solved. Create a plan that focuses on solving this exact problem.
 
 Available visual types:
 - bar_chart: For comparisons, data visualization
@@ -97,13 +99,17 @@ Available visual types:
 
 Return a JSON object with this structure:
 {{
-  "topic": "Clear, concise topic title",
+  "topic": "Specific problem type (e.g., 'Solving Quadratic Equation', 'Arithmetic Calculation', 'Algebraic Expression')",
   "needs_intro": true/false,
   "needs_formula": true/false (if mathematical formulas are relevant),
   "needs_example": true/false (if worked examples would help),
   "visual_types": ["list", "of", "relevant", "visual", "types"]
 }}
 
-Choose visuals that will genuinely help explain this specific concept. Be selective - only include visuals that add value."""
+Focus on:
+- Identifying the specific type of math problem
+- Choosing visuals that will help solve this exact problem
+- Being specific about the mathematical concept involved
+- Only include visuals that directly aid in solving the problem"""
 
 

@@ -31,13 +31,13 @@ def initialize_firebase() -> None:
 
     try:
         # Try to initialize with service account credentials
-        cred_path = settings.google_application_credentials or os.getenv(
-            "GOOGLE_APPLICATION_CREDENTIALS"
-        )
+        cred_path = settings.google_application_credentials 
 
         if cred_path and os.path.exists(cred_path):
             cred = credentials.Certificate(cred_path)
-            firebase_admin.initialize_app(cred)
+            firebase_admin.initialize_app(cred,{
+        "projectId": settings.firebase_project_id,
+    })
         else:
             # Try default credentials (e.g., from GCP environment)
             firebase_admin.initialize_app()

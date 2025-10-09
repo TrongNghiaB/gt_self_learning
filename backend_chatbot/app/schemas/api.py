@@ -1,5 +1,6 @@
 """API request and response schemas."""
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 from pydantic import BaseModel, Field
 from app.schemas.elements import Element
 
@@ -17,4 +18,26 @@ class ExplainResponse(BaseModel):
 
     topic: str = Field(..., description="Main topic of the explanation")
     elements: list[Element] = Field(..., description="Ordered list of explanation elements")
+
+
+class ConversationSummary(BaseModel):
+    """Summary of a conversation for listing."""
+
+    id: str = Field(..., description="Unique conversation ID")
+    topic: str = Field(..., description="Main topic of the conversation")
+    created_at: datetime = Field(..., description="When the conversation was created")
+    updated_at: datetime = Field(..., description="When the conversation was last updated")
+    image_count: int = Field(..., description="Number of images in the conversation")
+
+
+class ConversationDetail(BaseModel):
+    """Detailed conversation information."""
+
+    id: str = Field(..., description="Unique conversation ID")
+    topic: str = Field(..., description="Main topic of the conversation")
+    query: str = Field(..., description="Original user query")
+    elements: list[Element] = Field(..., description="Ordered list of explanation elements")
+    image_paths: List[str] = Field(..., description="List of uploaded image paths")
+    created_at: datetime = Field(..., description="When the conversation was created")
+    updated_at: datetime = Field(..., description="When the conversation was last updated")
 

@@ -41,7 +41,7 @@ class Orchestrator:
         return self.process_pool
 
     async def explain(
-        self, query: str, locale: str = "en", model: str = "openai"
+        self, query: str, locale: str = "en", model: str = "openai", image_paths: list[str] = None
     ) -> Result[tuple[str, list[Element]], DomainError]:
         """
         Execute the full pipeline to generate explanation elements.
@@ -49,6 +49,8 @@ class Orchestrator:
         Args:
             query: User's math question
             locale: Language locale
+            model: LLM model to use
+            image_paths: Optional list of image paths for visual analysis
 
         Returns:
             Result containing (topic, elements) or DomainError
@@ -60,8 +62,8 @@ class Orchestrator:
 
         plan: Plan = plan_result.unwrap()
 
-        # Step 2: Math solving (LLM-based, async)
-        math_solution_result = await self.math_solver.solve(plan.topic, query, model)
+        # Step 2: Math solving (LLM-based, async) - now with image support
+        math_solution_result = await self.math_solver.solve(plan.topic, query, model, image_paths)
         if math_solution_result.is_err():
             return math_solution_result  # type: ignore
 

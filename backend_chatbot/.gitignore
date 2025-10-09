@@ -15,4 +15,5 @@ build/
 serviceAccountKey.json
 *.log
 .DS_Store
+firestore_service/*.json
 

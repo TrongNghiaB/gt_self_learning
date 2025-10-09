@@ -1,6 +1,7 @@
 """FastAPI main application."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.routers import health, math
 
@@ -25,4 +26,7 @@ app.add_middleware(
 # Include routers
 app.include_router(health.router)
 app.include_router(math.router)
+
+# Mount static files for serving images
+app.mount("/images", StaticFiles(directory="images"), name="images")
 
